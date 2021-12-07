@@ -2,14 +2,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(EXAMPLE "shall we complie example" on)
 #INCLUDE(build_for_r328)
-INCLUDE(build_for_rk3308)
+INCLUDE(build_for_host)
+#INCLUDE(build_for_rk3308)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
 PROJECT(CppDemo)
 
-#SET(CMAKE_BUILD_TYPE "Debug")
-SET(CMAKE_BUILD_TYPE "Release")
+SET(CMAKE_BUILD_TYPE "Debug")
+#SET(CMAKE_BUILD_TYPE "Release")
 
 SET(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -O0 -Wall -g")
 SET(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS} -Os -Wall")
@@ -31,7 +32,12 @@ add_subdirectory(wifi)
 
 set(EXEC_NAME cxxdemo)
 
-add_executable(${EXEC_NAME} nl80211_info.cc
+add_executable(${EXEC_NAME}
+#	nl80211_info.cc
+#	wifi_interface.cc
+#	net_interface.cc
+	main.cc
+	netwatch.cc
 )
 
 target_link_libraries(${EXEC_NAME}

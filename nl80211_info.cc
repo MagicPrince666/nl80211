@@ -220,12 +220,14 @@ static int getWifiInfo_callback(struct nl_msg *msg, void *arg) {
    */
 
   if (!tb[NL80211_ATTR_STA_INFO]) {
-    fprintf(stderr, "sta stats missing!\n"); return NL_SKIP;
+    fprintf(stderr, "sta stats missing!\n");
+    return NL_SKIP;
   }
 
   if (nla_parse_nested(sinfo, NL80211_STA_INFO_MAX,
                        tb[NL80211_ATTR_STA_INFO], stats_policy)) {
-    fprintf(stderr, "failed to parse nested attributes!\n"); return NL_SKIP;
+    fprintf(stderr, "failed to parse nested attributes!\n");
+    return NL_SKIP;
   }
 
   if (sinfo[NL80211_STA_INFO_SIGNAL]) {
@@ -297,7 +299,7 @@ static int getWifiStatus(Netlink* nl, Wifi* w) {
 }
 
 
-int main(int argc, char **argv) {
+int nl80211(int argc, char **argv) {
   Netlink nl;
   Wifi wifi;
 
