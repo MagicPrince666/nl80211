@@ -2,9 +2,10 @@
 #include <signal.h>
 #include <execinfo.h>
 
-//#include "wifi_interface.h"
+#include "wifi_interface.h"
 //#include "net_interface.h"
 #include "netwatch.h"
+#include "config.h"  
 
 #define PRINT_SIZE_ 20
 
@@ -57,34 +58,20 @@ int main(int argc, char **argv) {
     signal(SIGSEGV, _signal_handler);  // SIGSEGV，非法内存访问
     signal(SIGFPE, _signal_handler);  // SIGFPE，数学相关的异常，如被0除，浮点溢出，等等
     signal(SIGABRT, _signal_handler);  // SIGABRT，由调用abort函数产生，进程非正常退出
-    // Netinfc net_info(argv[1]);
-    // if(!net_info.IfRunning()) { //网卡是否启动
-    //     std::cout << argv[1] << " not running" << std::endl;
-    // } else {
-    //     std::cout << argv[1] << " is running" << std::endl;
-    // }
-    // std::string ipaddress;
-    // net_info.GetInet(ipaddress);
-    // if(ipaddress.size() == 0) {
-    //     std::cout << argv[1] <<" ip address not set, please check" << std::endl;
-    // } else {
-    //     std::cout << argv[1] <<" ip address is " << ipaddress << std::endl;
-    // }
-    // Wifi wifiinfo(argv[1]);//init wifi interface
-    // // std::string ssid = wifiinfo.GetSsid();
-    // wifi_msg wifi_massage;
-    // int ret = wifiinfo.LinkStatus(wifi_massage);
-    // if(ret) {
-    //     std::cout <<" Ssid: " << wifi_massage.ssid << std::endl;
-    //     std::cout <<" signal: " << wifi_massage.signal << std::endl;
-    //     std::cout <<" Txrate: " << (float)wifi_massage.txrate/1000000 << std::endl;
-    // } else {
-    //     std::cout << "ret = " << ret << std::endl;
-    // }
-    // std::cout << "SSID = " << ssid << std::endl;
-    // wifiinfo.LinkStatus();
 
-    NetWatch netinfo;
-    netinfo.Loop();
+    Wifi wifi_info("wlan0");
+    wifi_msg wifi_massage;
+    wifi_info.LinkMsg(wifi_massage);
+    printf("Ssid: %s\n", wifi_massage.ssid);
+    printf("ifname: %s\n", wifi_massage.ifname);
+    printf("mac_addr: %s\n", wifi_massage.mac_addr);
+    printf("signal: %d\n", wifi_massage.signal);
+    printf("channel: %d\n", wifi_massage.channel);
+    printf("txrate: %d\n", wifi_massage.txrate);
+
+    Config cfg("/data/bin/dnsmasq.conf");
+    auto ipaddr = cfg.Read("listen-address", std::string("bbb"));
+    printf("ipaddr: %s\n", ipaddr.c_str());
+
     return 0;
 }

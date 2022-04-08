@@ -33,9 +33,9 @@ add_subdirectory(wifi)
 set(EXEC_NAME cxxdemo)
 
 add_executable(${EXEC_NAME}
-#	nl80211_info.cc
-#	wifi_interface.cc
-#	net_interface.cc
+	wifi_interface.cc
+	net_interface.cc
+	config.cc
 	main.cc
 	netwatch.cc
 )
