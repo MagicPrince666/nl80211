@@ -23,8 +23,10 @@ typedef struct {
 typedef struct {
   int id;
   struct nl_sock* socket;
-  struct nl_cb* callback;
-  int result = -1;
+  struct nl_cb* name_cb;
+  struct nl_cb* info_cb;
+  int name_result = -1;
+  int info_result = -1;
 } Net_link;
 
 class Wifi
@@ -87,10 +89,10 @@ public:
     int ResetWifi();
 
 private:
+    Net_link nl_;
     wifi_msg wifi_;
     std::string dev_;
-    std::string readFileIntoString(const std::string path);
-    int WifiNameUpdate();
+    std::string readFileIntoString(const std::string& path);
     int WifiInfoUpdate();
-    bool InitNl80211(Net_link &nl);
+    bool InitNl80211();
 };
