@@ -1,9 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 option(EXAMPLE "shall we complie example" on)
-#INCLUDE(build_for_r328)
-INCLUDE(build_for_host)
-#INCLUDE(build_for_rk3308)
+INCLUDE(build_for_v831)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
@@ -35,9 +33,7 @@ set(EXEC_NAME cxxdemo)
 add_executable(${EXEC_NAME}
 	wifi_interface.cc
 	net_interface.cc
-	config.cc
 	main.cc
-	netwatch.cc
 )
 
 target_link_libraries(${EXEC_NAME}
